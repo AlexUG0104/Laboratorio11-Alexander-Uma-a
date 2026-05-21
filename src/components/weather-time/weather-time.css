@@ -1,0 +1,7 @@
+/* Estilos opcionales para weather-time */
+
+weather-time {
+  --gradient-start: #f093fb;
+  --gradient-end: #f5576c;
+  --border-radius: 16px;
+}

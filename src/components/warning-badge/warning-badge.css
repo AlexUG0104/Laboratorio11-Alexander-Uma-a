@@ -1,0 +1,7 @@
+/* Estilos opcionales para warning-badge */
+
+warning-badge {
+  --warning-color: #ff6b6b;
+  --warning-glow: rgba(255, 107, 107, 0.5);
+  --pulse-duration: 1.5s;
+}

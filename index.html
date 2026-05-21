@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Components Lab - Laboratorio 11 - Alexander Umaña</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23667eea'>🔧</text></svg>">
+    
+    <!-- Estilos globales -->
+    <link rel="stylesheet" href="src/styles/global.css">
+    
+    <!-- Meta tags adicionales -->
+    <meta name="description" content="Laboratorio de Web Components con comunicación entre componentes, Shadow DOM, Custom Events y encapsulación">
+    <meta name="author" content="Alexander Umaña">
+    <meta name="theme-color" content="#667eea">
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <user-dashboard>
+        <!-- Tarjeta de usuario -->
+        <user-card
+            slot="top"
+            username="Alonso"
+            role="Profesor"
+            avatar="https://i.pravatar.cc/150?img=3">
+        </user-card>
+
+        <!-- Información del clima y hora -->
+        <weather-time
+            slot="top"
+            city="Liberia"
+            temperature="31°C"
+            condition="Sunny">
+        </weather-time>
+
+        <!-- Badge de advertencia -->
+        <warning-badge slot="bottom" pulsing>
+            Sesión por expirar
+        </warning-badge>
+    </user-dashboard>
+
+    <!-- Scripts -->
+    <!-- Importar app.js como módulo para permitir imports ES6 -->
+    <script type="module" src="src/app.js"></script>
+
+    <!-- Script de depuración opcional (solo en desarrollo) -->
+    <script>
+        // Log de componentes disponibles
+        if (typeof window !== 'undefined') {
+            window.addEventListener('load', () => {
+                console.log(' Web Components disponibles en window.customElements:');
+                const components = ['user-dashboard', 'user-card', 'weather-time', 'warning-badge'];
+                components.forEach(name => {
+                    const defined = customElements.get(name);
+                    console.log(`  ${defined ? '✅' : '❌'} ${name} - ${defined ? 'Registrado' : 'No registrado'}`);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
