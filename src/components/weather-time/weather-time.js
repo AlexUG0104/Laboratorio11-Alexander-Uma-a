@@ -1,12 +1,4 @@
-/**
- * weather-time Web Component
- * 
- * Responsabilidades:
- * - Mostrar información meteorológica (ciudad, temperatura, condición)
- * - Usar atributos reactivos
- * - Renderizar dinámicamente
- * - Encapsulación total con Shadow DOM
- */
+
 
 class WeatherTime extends HTMLElement {
   constructor() {

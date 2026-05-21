@@ -1,12 +1,4 @@
-/**
- * user-card Web Component
- * 
- * Responsabilidades:
- * - Mostrar información del usuario (avatar, nombre, rol)
- * - Usar atributos reactivos
- * - Emitir eventos personalizados cuando se presiona "Saludar"
- * - Encapsulación total con Shadow DOM
- */
+
 
 class UserCard extends HTMLElement {
   constructor() {

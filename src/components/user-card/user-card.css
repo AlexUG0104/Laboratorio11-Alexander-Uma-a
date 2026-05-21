@@ -1,4 +1,3 @@
-/* Estilos opcionales para user-card (aunque la mayoría van en Shadow DOM) */
 
 user-card {
   --primary-color: #667eea;
@@ -7,4 +6,4 @@ user-card {
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Si necesita estilos desde fuera del Shadow DOM */
+

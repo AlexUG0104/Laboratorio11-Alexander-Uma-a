@@ -1,12 +1,4 @@
-/**
- * warning-badge Web Component
- * 
- * Responsabilidades:
- * - Mostrar advertencias
- * - Reaccionar al atributo [pulsing] activando animaciones
- * - Usar CSS variables para encapsulación
- * - Mostrar contenido mediante slots
- */
+
 
 class WarningBadge extends HTMLElement {
   constructor() {

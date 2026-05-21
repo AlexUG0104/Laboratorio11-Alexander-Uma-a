@@ -1,13 +1,4 @@
-/**
- * user-dashboard Web Component
- * 
- * Responsabilidades:
- * - Ser contenedor padre (layout principal)
- * - Escuchar eventos emitidos por user-card
- * - Buscar y modificar warning-badge
- * - Manejar la comunicación entre componentes
- * - Aplicar lógica del dashboard
- */
+
 
 class UserDashboard extends HTMLElement {
   constructor() {

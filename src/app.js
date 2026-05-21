@@ -1,9 +1,4 @@
-/**
- * app.js
- * 
- * Punto central de entrada de la aplicación
- * Importa y registra todos los componentes Web Components
- */
+
 
 // Importar todos los componentes
 import './components/user-dashboard/user-dashboard.js';
@@ -15,8 +10,8 @@ import './components/warning-badge/warning-badge.js';
  * Inicialización de la aplicación
  */
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('✅ Aplicación de Web Components inicializada');
-  console.log('📦 Componentes registrados:');
+  console.log(' Aplicación de Web Components inicializada');
+  console.log(' Componentes registrados:');
   console.log('  - user-dashboard');
   console.log('  - user-card');
   console.log('  - weather-time');
@@ -26,14 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const dashboard = document.querySelector('user-dashboard');
   
   if (dashboard) {
-    console.log('✅ Dashboard encontrado en el DOM');
+    console.log('Dashboard encontrado en el DOM');
     
     // Opcionalmente: log cuando se reciben eventos
     dashboard.addEventListener('user-greet', (event) => {
-      console.log('🎉 Evento user-greet recibido:', event.detail);
+      console.log('Evento user-greet recibido:', event.detail);
     });
   } else {
-    console.warn('⚠️ Dashboard no encontrado en el DOM');
+    console.warn('Dashboard no encontrado en el DOM');
   }
 });
 
