@@ -32,6 +32,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Exportar para uso en consola o módulos externos (opcional)
-// Nota: los componentes se importan y registran mediante ES modules.
 
