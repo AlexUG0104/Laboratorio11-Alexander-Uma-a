@@ -1,199 +1,49 @@
-
-
 class WarningBadge extends HTMLElement {
-  constructor() {
-    super();
-    
-    // Attachar Shadow DOM
-    this.attachShadow({ mode: 'open' });
-    
-    // Estado interno
-    this.state = {
-      pulsing: false,
-      message: 'Advertencia'
-    };
-  }
-
-  /**
-   * Atributos observados
-   */
-  static get observedAttributes() {
-    return ['pulsing'];
-  }
-
-  /**
-   * Se ejecuta cuando el componente se inserta en el DOM
-   */
-  connectedCallback() {
-    // Sincronizar estado
-    this.state.pulsing = this.hasAttribute('pulsing');
-    
-    this.render();
-  }
-
-  /**
-   * Reacciona a cambios en atributos
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'pulsing') {
-      // Si newValue es null, el atributo fue removido
-      this.state.pulsing = newValue !== null;
-      this.render();
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
     }
-  }
 
-  /**
-   * Renderiza el contenido
-   */
-  render() {
-    const template = `
-      <div part="badge" class="badge ${this.state.pulsing ? 'pulsing' : ''}">
-        <span class="warning-icon">⚠️</span>
-        <div part="text" class="text">
-          <slot>Sesión por expirar</slot>
-        </div>
-      </div>
-    `;
-
-    const styles = `
-      <style>
-        :host {
-          display: block;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          --warning-color: #ff6b6b;
-          --warning-glow: rgba(255, 107, 107, 0.5);
-          --pulse-duration: 1.5s;
-        }
-
-        :host([pulsing]) {
-          --warning-color: #ff4757;
-          --warning-glow: rgba(255, 71, 87, 0.8);
-        }
-
-        .badge {
-          background: linear-gradient(135deg, #ffa502 0%, #ff6b6b 100%);
-          border-radius: 12px;
-          padding: 16px 24px;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          color: white;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .badge.pulsing {
-          animation: pulse-glow var(--pulse-duration) ease-in-out infinite;
-          box-shadow: 
-            0 0 0 0 var(--warning-glow),
-            0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .warning-icon {
-          font-size: 24px;
-          animation: bounce 0.6s ease-in-out infinite;
-        }
-
-        .badge.pulsing .warning-icon {
-          animation: bounce 0.6s ease-in-out infinite, 
-                     spin 2s linear infinite;
-        }
-
-        .text {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          flex: 1;
-          font-size: 15px;
-        }
-
-        /* Animación de pulso y glow */
-        @keyframes pulse-glow {
-          0% {
-            box-shadow: 
-              0 0 0 0 var(--warning-glow),
-              0 8px 24px rgba(0, 0, 0, 0.2);
-          }
-          50% {
-            box-shadow: 
-              0 0 0 12px rgba(255, 107, 107, 0),
-              0 8px 24px rgba(0, 0, 0, 0.3);
-          }
-          100% {
-            box-shadow: 
-              0 0 0 0 rgba(255, 107, 107, 0),
-              0 8px 24px rgba(0, 0, 0, 0.2);
-          }
-        }
-
-        /* Animación de bounce para el icono */
-        @keyframes bounce {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-
-        /* Animación de spin */
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        /* Efecto de brillo */
-        @keyframes shimmer {
-          0% {
-            background-position: -1000px 0;
-          }
-          100% {
-            background-position: 1000px 0;
-          }
-        }
-
-        /* Estados visuales */
-        ::slotted(*) {
-          margin: 0;
-          font-size: inherit;
-        }
-      </style>
-    `;
-
-    this.shadowRoot.innerHTML = styles + template;
-  }
-
-  /**
-   * Método público para activar el pulsing
-   */
-  activate() {
-    this.setAttribute('pulsing', '');
-  }
-
-  /**
-   * Método público para desactivar el pulsing
-   */
-  deactivate() {
-    this.removeAttribute('pulsing');
-  }
-
-  /**
-   * Alterna el estado de pulsing
-   */
-  toggle() {
-    if (this.state.pulsing) {
-      this.deactivate();
-    } else {
-      this.activate();
+    static get observedAttributes() {
+        return ['pulsing'];
     }
-  }
+
+    connectedCallback() {
+        this.render();
+    }
+
+    attributeChangedCallback() {
+        this.render();
+    }
+
+    render() {
+        const isPulsing = this.hasAttribute('pulsing');
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    display: inline-block;
+                    background-color: #fca5a5;
+                    color: #991b1b;
+                    padding: 4px 12px;
+                    border-radius: 9999px;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    font-family: sans-serif;
+                }
+                .pulsing {
+                    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                }
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: .5; }
+                }
+            </style>
+            <div class="${isPulsing ? 'pulsing' : ''}">
+                <slot></slot>
+            </div>
+        `;
+    }
 }
 
-// Registrar el componente
 customElements.define('warning-badge', WarningBadge);
+export default WarningBadge;

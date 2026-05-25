@@ -1,232 +1,95 @@
-
-
 class UserCard extends HTMLElement {
-  constructor() {
-    super();
-    
-    // Attachar Shadow DOM
-    this.attachShadow({ mode: 'open' });
-    
-    // Estado interno (puede cambiar)
-    this.state = {
-      username: '',
-      role: '',
-      avatar: ''
-    };
-  }
-
-  /**
-   * Atributos que serán observados para cambios
-   */
-  static get observedAttributes() {
-    return ['username', 'role', 'avatar'];
-  }
-
-  /**
-   * Se ejecuta cuando el componente se inserta en el DOM
-   */
-  connectedCallback() {
-    this.state.username = this.getAttribute('username') || '';
-    this.state.role = this.getAttribute('role') || '';
-    this.state.avatar = this.getAttribute('avatar') || '';
-    this.render();
-    this.attachEventListeners();
-  }
-
-  /**
-   * Se ejecuta cuando un atributo observado cambia
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) {
-      this.state[name] = newValue;
-      this.render();
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
     }
-  }
 
-  /**
-   * Renderiza el contenido del componente
-   */
-  render() {
-    const template = `
-      <div part="card" class="card">
-        <div class="card-content">
-          <img 
-            part="avatar" 
-            class="avatar" 
-            src="${this.state.avatar}" 
-            alt="Avatar de ${this.state.username}"
-          />
-          
-          <div class="info">
-            <h2 part="username" class="username">${this.state.username || 'Usuario'}</h2>
-            <p part="role" class="role">${this.state.role || 'Sin rol'}</p>
-          </div>
-        </div>
-
-        <button part="button" class="btn-greet">Saludar</button>
-
-        <!-- Slot opcional para acciones personalizadas -->
-        <slot name="actions"></slot>
-      </div>
-    `;
-
-    // Inyectar estilos
-    const styles = `
-      <style>
-        :host {
-          display: block;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .card {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 16px;
-          padding: 24px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          color: white;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          min-width: 250px;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-content {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .avatar {
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          border: 3px solid rgba(255, 255, 255, 0.5);
-          object-fit: cover;
-          transition: transform 0.3s ease;
-        }
-
-        .avatar:hover {
-          transform: scale(1.1);
-        }
-
-        .info {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .username {
-          margin: 0;
-          font-size: 18px;
-          font-weight: 700;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .role {
-          margin: 0;
-          font-size: 14px;
-          opacity: 0.9;
-          font-weight: 500;
-        }
-
-        .btn-greet {
-          padding: 10px 20px;
-          border: none;
-          border-radius: 8px;
-          background-color: rgba(255, 255, 255, 0.9);
-          color: #667eea;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-size: 14px;
-        }
-
-        .btn-greet:hover {
-          background-color: white;
-          transform: scale(1.05);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-greet:active {
-          transform: scale(0.98);
-        }
-
-        ::slotted([slot="actions"]) {
-          margin-top: 8px;
-        }
-      </style>
-    `;
-
-    this.shadowRoot.innerHTML = styles + template;
-
-    // Re-attachear event listeners después de re-renderizar
-    this.attachEventListeners();
-  }
-
-  /**
-   * Attacha event listeners a elementos del Shadow DOM
-   */
-  attachEventListeners() {
-    const btnGreet = this.shadowRoot.querySelector('.btn-greet');
-    
-    if (btnGreet) {
-      btnGreet.addEventListener('click', () => this.handleGreet());
+    static get observedAttributes() {
+        return ['username', 'role', 'avatar'];
     }
-  }
 
-  /**
-   * Manejador del botón Saludar
-   * Dispara un CustomEvent que burbujea hacia el padre
-   */
-  handleGreet() {
-    // Crear y disparar evento personalizado
-    const event = new CustomEvent('user-greet', {
-      detail: {
-        username: this.state.username,
-        role: this.state.role,
-        timestamp: new Date().toLocaleTimeString()
-      },
-      bubbles: true,      // Permitir que burbujee hacia arriba
-      composed: true      // Permitir que traspase Shadow DOM
-    });
+    connectedCallback() {
+        this.render();
+        this.addEventListeners();
+    }
 
-    this.dispatchEvent(event);
-  }
+    attributeChangedCallback() {
+        this.render();
+    }
 
-  /**
-   * Getters y setters para propiedades (opcional, para facilitar manipulación)
-   */
-  get username() {
-    return this.getAttribute('username');
-  }
+    addEventListeners() {
+        const button = this.shadowRoot.querySelector('button');
+        if (button) {
+            button.addEventListener('click', () => {
+                const event = new CustomEvent('user-greet', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        username: this.getAttribute('username') || 'Usuario'
+                    }
+                });
+                this.dispatchEvent(event);
+            });
+        }
+    }
 
-  set username(value) {
-    this.setAttribute('username', value);
-  }
+    render() {
+        const username = this.getAttribute('username') || 'Unknown';
+        const role = this.getAttribute('role') || 'Guest';
+        const avatar = this.getAttribute('avatar') || '';
 
-  get role() {
-    return this.getAttribute('role');
-  }
-
-  set role(value) {
-    this.setAttribute('role', value);
-  }
-
-  get avatar() {
-    return this.getAttribute('avatar');
-  }
-
-  set avatar(value) {
-    this.setAttribute('avatar', value);
-  }
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    display: block;
+                    background: white;
+                    border-radius: 8px;
+                    padding: 16px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    text-align: center;
+                    font-family: sans-serif;
+                }
+                img {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-bottom: 12px;
+                }
+                h2 {
+                    margin: 0;
+                    font-size: 1.25rem;
+                    color: #333;
+                }
+                p {
+                    margin: 4px 0 16px 0;
+                    color: #666;
+                    font-size: 0.9rem;
+                }
+                button {
+                    background-color: #667eea;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+                    transition: background-color 0.2s;
+                }
+                button:hover {
+                    background-color: #5a6fe0;
+                }
+            </style>
+            <img src="${avatar}" alt="Avatar de ${username}">
+            <h2>${username}</h2>
+            <p>${role}</p>
+            <button>Saludar</button>
+        `;
+        
+        // Re-attach listeners after render
+        this.addEventListeners();
+    }
 }
 
-// Registrar el componente
 customElements.define('user-card', UserCard);
+export default UserCard;
