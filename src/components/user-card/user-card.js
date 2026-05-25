@@ -41,46 +41,67 @@ class UserCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
-                    display: block;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
                     background: white;
-                    border-radius: 8px;
-                    padding: 16px;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                    text-align: center;
-                    font-family: sans-serif;
+                    border-radius: 12px;
+                    padding: 32px 16px;
+                    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+                    font-family: 'Inter', sans-serif;
+                    flex: 1;
+                    min-height: 280px;
+                    box-sizing: border-box;
+                }
+                .avatar-container {
+                    width: 90px;
+                    height: 90px;
+                    border-radius: 50%;
+                    border: 3px solid #fbbf24;
+                    padding: 4px;
+                    margin-bottom: 16px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
                 img {
-                    width: 80px;
-                    height: 80px;
+                    width: 100%;
+                    height: 100%;
                     border-radius: 50%;
                     object-fit: cover;
-                    margin-bottom: 12px;
                 }
                 h2 {
                     margin: 0;
                     font-size: 1.25rem;
-                    color: #333;
+                    color: #1e293b;
+                    font-weight: 800;
                 }
                 p {
-                    margin: 4px 0 16px 0;
-                    color: #666;
+                    margin: 4px 0 24px 0;
+                    color: #64748b;
                     font-size: 0.9rem;
+                    font-weight: 500;
                 }
                 button {
-                    background-color: #667eea;
+                    background-color: #0ea5e9;
                     color: white;
                     border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
+                    padding: 10px 28px;
+                    border-radius: 9999px;
                     cursor: pointer;
                     font-size: 0.9rem;
-                    transition: background-color 0.2s;
+                    font-weight: bold;
+                    transition: all 0.2s;
                 }
                 button:hover {
-                    background-color: #5a6fe0;
+                    background-color: #0284c7;
+                    transform: scale(1.05);
                 }
             </style>
-            <img src="${avatar}" alt="Avatar de ${username}">
+            <div class="avatar-container">
+                <img src="${avatar}" alt="Avatar de ${username}">
+            </div>
             <h2>${username}</h2>
             <p>${role}</p>
             <button>Saludar</button>
